@@ -16,23 +16,26 @@ public class MineSweeper {
 	
 	private JFrame frame;
 	
-		
+	public static MineSweeper game;
 	
 	
 	public static Cell[][] grid;
 	
 	
 	public static void main(String[] args) {
-		MineSweeper game = new MineSweeper(20, 20);
-		
-		NUMBER_OF_MINES = 50;
-	}
-	
-	
-	public static void gameOver() {
+		game = new MineSweeper(20, 20);
 		
 	}
 	
+	
+	public void gameOver() {
+		Reset();
+	}
+	
+	public void Reset() {
+		generateMines();
+		setValues();
+	}
 	
 	public Cell[][] getGrid(){
 		return grid;
@@ -128,6 +131,26 @@ public class MineSweeper {
 			}
 		}
 	}
+	
+	
+	
+	public static String checkWin() {
+		for(Cell[] cells : grid) {
+			for(Cell c : cells) {
+							
+				if(!c.isMine() && c.isCovered()) {
+					return "NOT DONE";
+				}
+				
+				
+			}
+		}
+		
+		return "WIN";
+	}
+	
+	
+	
 	
 	
 	

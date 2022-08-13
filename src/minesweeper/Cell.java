@@ -25,6 +25,10 @@ public class Cell extends JButton {
         	this.blank();
         }
         
+        
+        
+        System.out.println(MineSweeper.checkWin());
+        
     };
 	
 	
@@ -43,7 +47,7 @@ public class Cell extends JButton {
 	public boolean isCovered() {
 		return covered;
 	}
-	
+
 	
 	
 	public Cell(int ROW, int COL, boolean MINE) {
