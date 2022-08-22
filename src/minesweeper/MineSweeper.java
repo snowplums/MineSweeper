@@ -8,19 +8,21 @@ import java.util.*;
 public class MineSweeper {
 	
 	
-	public static int ROWS = 15;
-	public static int COLS = 20;
+	
+	public int ROWS = 15;
+	public int COLS = 20;
 	
 	
 	public static int NUMBER_OF_MINES = 50;
 	
-	private JFrame frame;
+	public static JFrame frame;
 	
 	public static MineSweeper game;
 	
 	
 	public static Cell[][] grid;
 	
+	private JButton reset;
 	
 	public static void main(String[] args) {
 		game = new MineSweeper(20, 20);
@@ -41,13 +43,21 @@ public class MineSweeper {
 		return grid;
 	}
 	
-	public static int getROWS() {
+	public int getROWS() {
 		return ROWS;
 	}
 	
-	public static int getCOLS() {
+	public int getCOLS() {
 		return COLS;
 	}
+	
+	
+	private final ActionListener menuButton = actionEvent -> {
+        resetAll();
+   
+        
+    };
+	
 	
 	
 	public MineSweeper(int gridRow, int gridCol) {
@@ -67,9 +77,19 @@ public class MineSweeper {
 		frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+        
+        JPanel buttonPanel = new JPanel();
+        reset = new JButton("Reset");
+        reset.addActionListener(menuButton);
+        buttonPanel.add(reset);
+        frame.add(buttonPanel, BorderLayout.SOUTH);
 	}
 	
-	
+	public void resetAll() {
+		Arrays.fill(grid, null);
+		
+		generateMines();
+	}
 	
 	
 	
@@ -77,8 +97,7 @@ public class MineSweeper {
 		Container gridFormat = new Container();
         gridFormat.setLayout(new GridLayout(20, 20));
 		
-
-		ArrayList<Integer> mineLocs = new ArrayList<Integer>();
+        ArrayList<Integer> mineLocs = new ArrayList<Integer>();
 		
 		for(int i = 0; i < ROWS * COLS; ++i) {
 			mineLocs.add(i);
@@ -105,12 +124,9 @@ public class MineSweeper {
 					grid[i][j] = new Cell(i, j, false);
 				}
 				
-				
-				
 				gridFormat.add(grid[i][j]);
 				System.out.println(i + ", " + j);
 			}		
-			
 		}
 		
 		for(int i =0; i < mineLocs.size();++i)		
@@ -120,10 +136,7 @@ public class MineSweeper {
 		
 		System.out.println("grid made");
 	}
-	
-	
-	
-	
+		
 	public void setValues() {
 		for(Cell[] row : grid) {
 			for(Cell c : row) {
@@ -131,27 +144,17 @@ public class MineSweeper {
 			}
 		}
 	}
-	
-	
-	
+		
 	public static String checkWin() {
 		for(Cell[] cells : grid) {
 			for(Cell c : cells) {
 							
 				if(!c.isMine() && c.isCovered()) {
 					return "NOT DONE";
-				}
-				
-				
+				}				
 			}
 		}
 		
 		return "WIN";
 	}
-	
-	
-	
-	
-	
-	
 }

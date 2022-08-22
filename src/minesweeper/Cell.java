@@ -60,28 +60,7 @@ public class Cell extends JButton {
 		
 		setText("");
 		
-		
-		addActionListener(actionListener);
-		
-		
-		
-		
-        
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-				
+		addActionListener(actionListener);	
 	}
 	
 	public void setValue() {
@@ -96,11 +75,11 @@ public class Cell extends JButton {
 				int rowTemp = r + row;
 				int colTemp = c + col;
 				
-				if(rowTemp > MineSweeper.ROWS - 1 || rowTemp < 0) {
+				if(rowTemp > MineSweeper.grid.length - 1 || rowTemp < 0) {
 					continue;
 				}
 				
-				if(colTemp > MineSweeper.COLS - 1 || colTemp < 0) {
+				if(colTemp > MineSweeper.grid[0].length - 1 || colTemp < 0) {
 					continue;
 				}
 				
@@ -108,10 +87,6 @@ public class Cell extends JButton {
 				neighbors[num++] = MineSweeper.grid[rowTemp][colTemp];
 			}
 		}
-		
-		
-		
-		
 		
 		if(!mine) {
 			int temp = 0;
@@ -126,9 +101,6 @@ public class Cell extends JButton {
 			}
 			value = temp;
 		}
-		
-		
-		
 	}
 	
 	
@@ -143,14 +115,7 @@ public class Cell extends JButton {
 				if(c.value == 0) {
 					c.blank();
 				}
-				
-				
-				
-				
-			}
-			
-			
-			
+			}			
 		}
 	}
 
@@ -159,28 +124,22 @@ public class Cell extends JButton {
 	
 	public void reveal() {
 		covered = false;
-		
+		setEnabled(false);
 		if(mine) {
 			System.out.println(mine);
-			MineSweeper.gameOver();
+			setText("X");
+			JOptionPane.showMessageDialog(
+	                MineSweeper.frame, "Loss", "Game Over",
+	                JOptionPane.ERROR_MESSAGE
+	        );
+		}else {
+			setText(String.valueOf(value));
 		}
-		setEnabled(false);
-		setText(String.valueOf(value));
-		
-		
-		
-		
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	public void resetCell() {
+		setEnabled(true);
+		setText("");
+	}
 }
 
