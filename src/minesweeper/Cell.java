@@ -50,10 +50,7 @@ public class Cell extends JButton {
 
 	
 	
-	public Cell(int ROW, int COL, boolean MINE) {
-		mine = MINE;
-		
-		if(mine) value = -1;
+	public Cell(int ROW, int COL) {
 		
 		row = ROW;
 		col = COL;
@@ -61,6 +58,13 @@ public class Cell extends JButton {
 		setText("");
 		
 		addActionListener(actionListener);	
+	}
+	
+	public void setMine(boolean MINE) {
+		mine = MINE;
+		if(mine == true) {
+			value = -1;
+		}
 	}
 	
 	public void setValue() {
@@ -132,14 +136,20 @@ public class Cell extends JButton {
 	                MineSweeper.frame, "Loss", "Game Over",
 	                JOptionPane.ERROR_MESSAGE
 	        );
+			
+			
+			
 		}else {
 			setText(String.valueOf(value));
 		}
 	}
 	
 	public void resetCell() {
+		
 		setEnabled(true);
+		covered = true;
 		setText("");
+		//addActionListener(actionListener);	
 	}
 }
 

@@ -23,10 +23,11 @@ public class MineSweeper {
 	public static Cell[][] grid;
 	
 	private JButton reset;
+
+	public Container gridFormat = new Container();
 	
 	public static void main(String[] args) {
 		game = new MineSweeper(20, 20);
-		
 	}
 	
 	
@@ -35,7 +36,7 @@ public class MineSweeper {
 	}
 	
 	public void Reset() {
-		generateMines();
+		addMines();
 		setValues();
 	}
 	
@@ -54,8 +55,6 @@ public class MineSweeper {
 	
 	private final ActionListener menuButton = actionEvent -> {
         resetAll();
-   
-        
     };
 	
 	
@@ -86,18 +85,45 @@ public class MineSweeper {
 	}
 	
 	public void resetAll() {
-		Arrays.fill(grid, null);
+		//Arrays.fill(grid, null);
+		for(Cell[] r : grid) {
+			for(Cell c : r) {
+				c.resetCell();
+				c.setMine(false);
+			}
+		}
 		
-		generateMines();
+		
+		
+		addMines();
+		setValues();
 	}
 	
 	
 	
 	public void generateMines() {
-		Container gridFormat = new Container();
+		
         gridFormat.setLayout(new GridLayout(20, 20));
 		
-        ArrayList<Integer> mineLocs = new ArrayList<Integer>();
+        for(int i = 0; i < ROWS; ++i) {
+        	for(int j = 0; j < COLS; ++j) {
+        		grid[i][j] = new Cell(i , j);
+        		gridFormat.add(grid[i][j]);
+        	}
+        }
+        
+		
+		addMines();
+		
+		frame.add(gridFormat, BorderLayout.CENTER);
+		
+		System.out.println("grid made");
+	}
+	
+	
+	public void addMines() {
+		
+		ArrayList<Integer> mineLocs = new ArrayList<Integer>();
 		
 		for(int i = 0; i < ROWS * COLS; ++i) {
 			mineLocs.add(i);
@@ -118,24 +144,20 @@ public class MineSweeper {
 			for(int j = 0; j < COLS; ++j) {
 				
 				if(mineLocs.size() != 0 && i * COLS + j == mineLocs.get(0)) {
-					grid[i][j] = new Cell(i, j, true);
+					grid[i][j].setMine(true);
 					mineLocs.remove(0);
-				}else {
-					grid[i][j] = new Cell(i, j, false);
 				}
-				
-				gridFormat.add(grid[i][j]);
 				System.out.println(i + ", " + j);
 			}		
 		}
 		
+		
 		for(int i =0; i < mineLocs.size();++i)		
-		System.out.println(mineLocs.get(i));
-		
-		frame.add(gridFormat, BorderLayout.CENTER);
-		
-		System.out.println("grid made");
+			System.out.println(mineLocs.get(i));
 	}
+	
+	
+	
 		
 	public void setValues() {
 		for(Cell[] row : grid) {
